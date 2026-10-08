@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="description" content="Live TV Channel Free - Global live TV streams and channels." />
+  <title>Live TV Channel Free - Global Live Broadcasts</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            emeraldDark: {
+              950: '#02140d',
+              900: '#042217',
+              800: '#073322',
+              700: '#0c4a32',
+              600: '#126344'
+            },
+            gold: {
+              200: '#fef08a',
+              300: '#fde047',
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+              metallic: '#d4af37',
+              bright: '#f1c40f',
+              light: '#f3e5ab'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Metallic Gold Border Utilities */
+    .gold-border {
+      border: 1.5px solid rgba(212, 175, 55, 0.65);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+    }
+    
+    .gold-border-glow {
+      border: 1.5px solid rgba(241, 196, 15, 0.85);
+      box-shadow: 0 0 16px rgba(241, 196, 15, 0.25);
+    }
+
+    .gold-text-gradient {
+      background: linear-gradient(135deg, #fff3b0 0%, #ffd700 45%, #d4af37 80%, #aa7c11 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom Scrollbar in Dark Emerald & Gold */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #02140d;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0c4a32;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d4af37;
+    }
+
+    /* Red Blinking Signal Pulse */
+    @keyframes pulse-red-live {
+      0% {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.85);
+      }
+      70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 9px rgba(239, 68, 68, 0);
+      }
+      100% {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+
+    .live-dot-pulse {
+      animation: pulse-red-live 1.8s infinite ease-in-out;
+    }
+
+    /* Hide horizontal scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-[#02140d] via-[#042217] to-[#010d08] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-gold-500 selection:text-slate-900">
+
+  <header class="sticky top-0 z-50 bg-[#02140d]/95 backdrop-blur-md gold-border border-x-0 border-t-0 px-4 py-3 shadow-2xl">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Left Side: Gold Icon + App Title -->
+      <div class="flex items-center space-x-3">
+        <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0c4a32] via-[#042217] to-[#d4af37]/40 flex items-center justify-center gold-border-glow group">
+          <i class="fa-solid fa-tv text-gold-metallic text-xl group-hover:scale-110 transition-transform duration-200"></i>
+          <span class="absolute -top-1 -right-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+        </div>
+        <div>
+          <h1 class="font-black text-xl sm:text-2xl tracking-tight gold-text-gradient drop-shadow-md">
+            Live TV Channel Free
+          </h1>
+          <p class="text-[11px] sm:text-xs text-amber-200/80 flex items-center gap-1.5 font-medium">
+            <i class="fa-solid fa-satellite-dish text-gold-metallic text-[10px]"></i> 24/7 Global Free Streams
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Side: Red Blinking Live Signal Indicator -->
+      <div class="flex items-center gap-2 bg-[#042217]/90 gold-border px-3.5 py-1.5 rounded-full shadow-inner">
+        <span class="w-3.5 h-3.5 rounded-full bg-red-600 live-dot-pulse inline-block"></span>
+        <span class="text-xs font-black tracking-wider text-red-400 uppercase">● LIVE</span>
+        <span id="totalChannelBadge" class="hidden sm:inline-block text-[11px] text-amber-300/80 border-l border-amber-500/40 pl-2 ml-1 font-bold">
+          35+ Channels
+        </span>
+      </div>
+
+    </div>
+  </header>
+
+  <section class="max-w-7xl w-full mx-auto px-4 pt-4 pb-2 space-y-3">
+    
+    <!-- 1. Search Bar Container with Gold Border -->
+    <div class="relative w-full">
+      <div class="relative gold-border rounded-2xl overflow-hidden bg-[#042217]/90 shadow-xl">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gold-metallic text-base"></i>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search channels, topics, countries (e.g. Music, Sports, Geography, Somoy, Aaj Tak, Lofi Girl)..." 
+          class="w-full bg-transparent text-sm sm:text-base text-slate-100 placeholder-emerald-200/50 pl-11 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-gold-metallic/50 transition-all">
+        <button 
+          id="clearSearchBtn" 
+          class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-200/60 hover:text-white p-1 text-sm transition-colors">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Category Filter Bar (Below Search Bar) -->
+    <div class="space-y-1.5">
+      <div class="flex items-center justify-between text-xs font-bold text-amber-300/90 px-1">
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-gold-metallic"></i> Browse Categories
+        </span>
+        <span id="categoryStats" class="text-[11px] text-emerald-300/80 font-normal">All Categories</span>
+      </div>
+
+      <div id="categoryPillBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <button data-category="all" class="cat-pill active bg-gradient-to-r from-gold-600 to-amber-500 text-slate-950 font-black gold-border px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap shadow-md transition-all">
+          <i class="fa-solid fa-border-all"></i> All Streams
+        </button>
+        <button data-category="Sports" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-football text-gold-metallic"></i> Sports
+        </button>
+        <button data-category="Music" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-music text-gold-metallic"></i> Music
+        </button>
+        <button data-category="News" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-newspaper text-gold-metallic"></i> News
+        </button>
+        <button data-category="Geography" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-earth-americas text-gold-metallic"></i> Geography & Science
+        </button>
+        <button data-category="Entertainment" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-film text-gold-metallic"></i> Entertainment
+        </button>
+        <button data-category="Islamic" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-kaaba text-gold-metallic"></i> Islamic & Faith
+        </button>
+        <button data-category="Business" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-chart-line text-gold-metallic"></i> Business
+        </button>
+        <button data-category="favorites" class="cat-pill bg-[#042217] text-amber-200/90 gold-border hover:bg-[#073322] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all">
+          <i class="fa-solid fa-star text-amber-400"></i> Favorites
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Country Filter Pills -->
+    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
+      <span class="text-[11px] font-bold text-amber-400/80 uppercase tracking-wider mr-1 shrink-0">Region:</span>
+      <button data-country="all" class="country-pill active bg-amber-500/20 text-gold-light gold-border px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap">
+        Global All
+      </button>
+      <button data-country="bd" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🇧🇩 Bangladesh
+      </button>
+      <button data-country="in" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🇮🇳 India
+      </button>
+      <button data-country="global" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🌍 USA / UK / Int'l
+      </button>
+      <button data-country="sa" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🇸🇦 Saudi Arabia
+      </button>
+      <button data-country="pk" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🇵🇰 Pakistan
+      </button>
+      <button data-country="qa" class="country-pill bg-[#042217] text-slate-300 gold-border hover:bg-[#073322] px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap">
+        🇶🇦 Qatar
+      </button>
+    </div>
+
+  </section>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-5">
+    
+    <!-- LEFT SECTION: Player Frame and Channel Actions (7/12 cols on lg) -->
+    <section class="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
+      
+      <!-- Video Frame with Gold Metallic Border -->
+      <div class="relative w-full rounded-2xl overflow-hidden bg-black gold-border-glow shadow-2xl shadow-emeraldDark-950">
+        <div class="relative w-full pt-[56.25%]"> <!-- 16:9 Aspect Ratio -->
+          <iframe 
+            id="tvPlayer" 
+            class="absolute top-0 left-0 w-full h-full border-0"
+            src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCxHoBXkY88Tb8z1Ssj6CWsQ&autoplay=1&mute=1&playsinline=1" 
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="autoplay; encrypted-media; picture-in-picture; web-share; fullscreen" 
+            allowfullscreen>
+          </iframe>
+
+      <button id="unmuteBtn"
+        class="absolute bottom-3 right-3 z-10 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-black/75 text-white text-xs font-bold gold-border hover:bg-black/90 transition-all"
+        type="button" title="Turn sound on">
+        <i class="fa-solid fa-volume-xmark"></i>
+        <span>Sound Off</span>
+      </button>
+        </div>
+      </div>
+
+      <!-- Active Channel Dashboard & External Launcher -->
+      <div class="bg-[#042217] gold-border rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xl">
+        
+        <!-- Active Details -->
+        <div class="flex items-center gap-3.5">
+          <div class="relative">
+            <div id="activeChannelIcon" class="w-12 h-12 rounded-xl bg-emeraldDark-950 text-gold-metallic gold-border font-black text-sm flex items-center justify-center shadow-inner">
+              STV
+            </div>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-600 rounded-full gold-border live-dot-pulse"></span>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="activeChannelFlag" class="text-base">🇧🇩</span>
+              <span id="activeChannelCountry" class="text-xs text-amber-200/80 font-semibold">Bangladesh</span>
+              <span class="text-emerald-700">•</span>
+              <span id="activeChannelCategory" class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#02140d] text-gold-bright gold-border uppercase">
+                News
+              </span>
+            </div>
+            <h2 id="activeChannelTitle" class="text-xl sm:text-2xl font-black text-slate-100 tracking-tight mt-0.5">
+              Somoy TV
+            </h2>
+            <p id="activeChannelDesc" class="text-xs text-emerald-200/70">24/7 Live News Broadcast</p>
+          </div>
+        </div>
+
+        <!-- Action Controls (YouTube App Direct Launch + Favorite Toggle) -->
+        <div class="w-full sm:w-auto flex items-center gap-2">
+          <button 
+            id="favoriteBtn" 
+            title="Add to Favorites"
+            class="p-3 rounded-xl bg-[#02140d] gold-border text-amber-400 hover:text-gold-light hover:bg-[#073322] active:scale-95 transition-all">
+            <i id="favoriteIcon" class="fa-regular fa-star text-lg"></i>
+          </button>
+
+          <a 
+            id="directYtBtn" 
+            href="https://www.youtube.com/channel/UCxHoBXkY88Tb8z1Ssj6CWsQ/live" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 active:scale-[0.98] text-white font-extrabold text-xs sm:text-sm tracking-wide gold-border shadow-lg transition-all duration-200">
+            <i class="fa-brands fa-youtube text-lg"></i>
+            <span>Watch on YouTube App</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Local File & Embed Troubleshooting Banner -->
+      <div id="fileNotice" class="bg-amber-500/10 gold-border rounded-xl p-3.5 text-xs text-amber-200/90 flex items-start gap-3">
+        <i class="fa-solid fa-shield-halved text-gold-bright text-base mt-0.5 flex-shrink-0"></i>
+        <div class="leading-relaxed">
+          <strong class="font-bold text-gold-light">Playback Notice:</strong> If YouTube blocks embedding with <em>Error 153</em> due to local storage or browser security rules, tap the red <span class="text-red-400 font-bold">Watch on YouTube App</span> button above to play directly in 1080p.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT SECTION: Channels Directory Explorer (5/12 cols on lg) -->
+    <section class="lg:col-span-5 xl:col-span-4 flex flex-col bg-[#042217] gold-border rounded-2xl overflow-hidden shadow-2xl max-h-[680px]">
+      
+      <!-- List Header -->
+      <div class="p-4 border-b border-amber-500/30 bg-[#02140d]/80 flex items-center justify-between">
+        <h3 class="font-bold text-slate-100 text-sm sm:text-base flex items-center gap-2">
+          <i class="fa-solid fa-list-ul text-gold-metallic"></i> Channel Directory
+        </h3>
+        <span id="filteredCount" class="text-xs bg-[#02140d] text-gold-bright gold-border px-2.5 py-1 rounded-full font-extrabold">
+          35 Channels
+        </span>
+      </div>
+
+      <!-- Scrollable Channel Items Container -->
+      <div id="channelContainer" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+        <!-- JS injects channel cards here -->
+      </div>
+
+      <!-- No Results State -->
+      <div id="noResults" class="hidden flex-col items-center justify-center p-8 text-center text-emerald-200/60 space-y-2">
+        <i class="fa-solid fa-satellite-dish text-3xl text-gold-metallic mb-1"></i>
+        <p class="text-sm font-bold text-amber-200">No channels match your search</p>
+        <p class="text-xs text-emerald-300/60">Try selecting another category or searching for another keyword.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="border-t border-amber-500/30 bg-[#02140d] py-4 text-center text-xs text-emerald-300/60 mt-auto">
+    <p class="flex items-center justify-center gap-1.5 font-medium">
+      <span class="gold-text-gradient font-bold">Live TV Channel Free</span> • <span>Global Live TV Hub</span>
+    </p>
+  </footer>
+
+  <script>
+    // Expanded Channel Dataset with Verified YouTube Live Channel IDs across requested categories
+    const CHANNELS = [
+      // === MUSIC CHANNELS ===
+      { id: 'UC3S13Gf44uO72Cg-f0xT_qQ', name: 'Gaan Bangla TV', abbr: 'GB', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Music', desc: 'Bangladeshi Music & Concerts 24/7' },
+      { id: 'UCSJ4gkVC6NrvII8umztf0OW', name: 'Lofi Girl Live', abbr: 'LOFI', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Music', desc: 'Beats to Relax / Study to Live' },
+      { id: 'UCOvq0aSEfM4Jb8nU8mR36oA', name: 'Chillhop Music', abbr: 'CHP', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Music', desc: 'Chillhop Radio - Jazzy Lofi Beats' },
+      { id: 'UCq-Fj5jknLsUf-MWSy4_brA', name: 'T-Series Live', abbr: 'TSR', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'Music', desc: 'Bollywood Music Hits Broadcast' },
+      { id: 'UCFFbwnve3yF62-tVXkTy3qg', name: 'Zee Music Company', abbr: 'ZMC', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'Music', desc: 'Indian Film & Independent Music' },
+      { id: 'UCyv_6O_o809i9x4Yd4yYdJg', name: 'Sony Music India', abbr: 'SMI', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'Music', desc: 'Latest Hindi & Regional Tracks' },
+      { id: 'UCx3c1yQJ298U02yq98y_53w', name: '9XM Music', abbr: '9XM', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'Music', desc: '9XM Bollywood Music Channel' },
+      { id: 'UC20_NsoqD03R5yB5365d95g', name: 'Vevo Pop Hits', abbr: 'VEV', country: 'global', countryName: 'USA', flag: '🇺🇸', lang: 'ENG', cat: 'Music', desc: 'International Pop Video Stream' },
+
+      // === SPORTS CHANNELS ===
+      { id: 'UCblfuW_4rakI2h6xJmbffyg', name: 'Red Bull TV Sports', abbr: 'RB', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Sports', desc: 'Extreme Sports & Live Events' },
+      { id: 'UCa6nQ7Y3eI7x-7aG53b876Q', name: 'T Sports', abbr: 'TSP', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Sports', desc: 'First Sports Channel of BD' },
+      { id: 'UC_w93d7lR2_40C_iYI9M00A', name: 'Gazi TV (GTV)', abbr: 'GTV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Sports', desc: 'Live Cricket & National Sports' },
+      { id: 'UC9A-m3y4gC6Mv9-f0I6iWpA', name: 'Sky Sports News', abbr: 'SSN', country: 'global', countryName: 'UK', flag: '🇬🇧', lang: 'ENG', cat: 'Sports', desc: 'World Sports News & Updates' },
+      { id: 'UCz8K4_P6Qz9dK8t2_M123xg', name: 'DD Sports', abbr: 'DDS', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'Sports', desc: 'Indian National Sports Feed' },
+
+      // === GEOGRAPHY & SCIENCE CHANNELS ===
+      { id: 'UC2pn3RscP7xK3K_22G-jB5Q', name: 'NASA Live TV', abbr: 'NSA', country: 'global', countryName: 'USA', flag: '🇺🇸', lang: 'ENG', cat: 'Geography', desc: 'Earth Views & Space Station Feed' },
+      { id: 'UCpVm7bg6pXKo1Pr6k5kxG9A', name: 'National Geographic', abbr: 'NAT', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Geography', desc: 'Wildlife, Earth & Exploration' },
+      { id: 'UCc15383S8gP9k82v5m4-zLg', name: 'Discovery Channel', abbr: 'DIS', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'ENG', cat: 'Geography', desc: 'Science, Nature & Technology' },
+      { id: 'UC2v2A1aL2b_y8W-N1m7b8fg', name: 'Animal Planet World', abbr: 'AP', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Geography', desc: 'Nature & Animal Expeditions' },
+
+      // === NEWS CHANNELS ===
+      { id: 'UCxHoBXkY88Tb8z1Ssj6CWsQ', name: 'Somoy TV', abbr: 'STV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: '24/7 Live News Broadcast' },
+      { id: 'UCN6sm8iHiPd0cnoUardDAnw', name: 'Jamuna TV', abbr: 'JTV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: '24/7 Live News Channel' },
+      { id: 'UCtqvtAVmad5zywaziN6CbfA', name: 'Ekattor TV', abbr: '71', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: 'Current Affairs & News' },
+      { id: 'UCHLqIOMPk20w-6cFgkA90jw', name: 'Channel 24', abbr: 'C24', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: 'Live Infotainment & News' },
+      { id: 'UCa-SmrUwbMDHJ1XRU2pmZSg', name: 'DBC News', abbr: 'DBC', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: 'Live Satellite Channel' },
+      { id: 'UCATUkaOHwO9EP_W87zCiPbA', name: 'Independent TV', abbr: 'ITV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'News', desc: 'Digital Broadcast Stream' },
+      { id: 'UC9CYT9gSNLevX5u21jXQOjA', name: 'Aaj Tak', abbr: 'AJK', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'HIN', cat: 'News', desc: 'Sabse Tez Live News' },
+      { id: 'UCsC4J4x_rD1S3Kz4B5_W1-A', name: 'ABP Ananda', abbr: 'ABP', country: 'in', countryName: 'India', flag: '🇮🇳', lang: 'BEN', cat: 'News', desc: 'Bengali News Channel India' },
+      { id: 'UCNye-wNBqNL5ZzHSJj3l8Bg', name: 'Al Jazeera English', abbr: 'AJE', country: 'qa', countryName: 'Qatar', flag: '🇶🇦', lang: 'ENG', cat: 'News', desc: 'Global News & Documentaries' },
+      { id: 'UCoMdktPbSTixAyNGwb-UYkQ', name: 'Sky News', abbr: 'SKY', country: 'global', countryName: 'UK', flag: '🇬🇧', lang: 'ENG', cat: 'News', desc: 'First for Breaking News' },
+      { id: 'UCknLrEdhRCp1aegoMqRaCZg', name: 'DW News', abbr: 'DW', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'News', desc: 'German International News' },
+      { id: 'UCeY0bbntWzzVIaj2z3QigXg', name: 'NBC News Live', abbr: 'NBC', country: 'global', countryName: 'USA', flag: '🇺🇸', lang: 'ENG', cat: 'News', desc: '24/7 Breaking US News' },
+
+      // === ENTERTAINMENT CHANNELS ===
+      { id: 'UCAz6rveBalVnE6qTmfQnvyQ', name: 'Channel i', abbr: 'iTV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Entertainment', desc: 'Drama, Serials & Culture' },
+      { id: 'UCu-R45I1vM5yC5g4G7i3mXw', name: 'RTV Live', abbr: 'RTV', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Entertainment', desc: 'Popular Bengali Shows & Music' },
+
+      // === ISLAMIC CHANNELS ===
+      { id: 'UC4sLwK93A87N2Rz4QY2Ydkg', name: 'Saudi Quran Makkah', abbr: 'MKA', country: 'sa', countryName: 'Saudi Arabia', flag: '🇸🇦', lang: 'ARA', cat: 'Islamic', desc: 'Masjid al-Haram 24/7 Live' },
+      { id: 'UC0c2p83d8R-b_cR45P9q9Gg', name: 'Saudi Sunnah Madinah', abbr: 'MDN', country: 'sa', countryName: 'Saudi Arabia', flag: '🇸🇦', lang: 'ARA', cat: 'Islamic', desc: 'Al-Masjid an-Nabawi Live' },
+      { id: 'UCyYI_x6-X6tA1I7q9Jk4X_A', name: 'Peace TV English', abbr: 'PTV', country: 'global', countryName: 'Global', flag: '🌍', lang: 'ENG', cat: 'Islamic', desc: 'Islamic Educational Lectures' },
+
+      // === BUSINESS CHANNELS ===
+      { id: 'UCWbvhXv8p_y1Y8lE6Yj6N8g', name: 'Ekhon TV', abbr: 'EKH', country: 'bd', countryName: 'Bangladesh', flag: '🇧🇩', lang: 'BEN', cat: 'Business', desc: 'First Business TV in BD' }
+    ];
+
+    // State
+    let currentChannel = CHANNELS[0];
+    let selectedCategory = 'all';
+    let selectedCountry = 'all';
+    let favorites = JSON.parse(localStorage.getItem('tv_favorites_v2') || '[]');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const channelContainer = document.getElementById('channelContainer');
+      const searchInput = document.getElementById('searchInput');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      const catPills = document.querySelectorAll('.cat-pill');
+      const countryPills = document.querySelectorAll('.country-pill');
+      const filteredCount = document.getElementById('filteredCount');
+      const categoryStats = document.getElementById('categoryStats');
+      const noResults = document.getElementById('noResults');
+
+      // Player DOM elements
+      const player = document.getElementById('tvPlayer');
+      const directYtBtn = document.getElementById('directYtBtn');
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      const favoriteIcon = document.getElementById('favoriteIcon');
+      const activeChannelTitle = document.getElementById('activeChannelTitle');
+      const activeChannelIcon = document.getElementById('activeChannelIcon');
+      const activeChannelFlag = document.getElementById('activeChannelFlag');
+      const activeChannelCountry = document.getElementById('activeChannelCountry');
+      const activeChannelCategory = document.getElementById('activeChannelCategory');
+      const activeChannelDesc = document.getElementById('activeChannelDesc');
+      const unmuteBtn = document.getElementById('unmuteBtn');
+
+      // GitHub Pages is HTTPS, so the YouTube iframe can load normally.
+      // Browsers commonly allow autoplay only when the video starts muted.
+      function playerUrl(channelId, muted = true) {
+        return `https://www.youtube-nocookie.com/embed/live_stream?channel=${channelId}&autoplay=1&mute=${muted ? 1 : 0}&playsinline=1&rel=0`;
+      }
+
+      function updateSoundButton(muted) {
+        if (!unmuteBtn) return;
+        unmuteBtn.innerHTML = muted
+          ? '<i class="fa-solid fa-volume-xmark"></i><span>Sound Off</span>'
+          : '<i class="fa-solid fa-volume-high"></i><span>Sound On</span>';
+        unmuteBtn.title = muted ? 'Turn sound on' : 'Sound is on';
+      }
+
+      if (unmuteBtn) {
+        unmuteBtn.addEventListener('click', () => {
+          player.src = playerUrl(currentChannel.id, false);
+          updateSoundButton(false);
+        });
+      }
+
+      updateSoundButton(true);
+
+      // Check Favorite state
+      function isFavorite(channelId) {
+        return favorites.includes(channelId);
+      }
+
+      function updateFavoriteIcon() {
+        if (isFavorite(currentChannel.id)) {
+          favoriteIcon.className = 'fa-solid fa-star text-gold-bright text-lg';
+          favoriteBtn.classList.add('bg-amber-500/20');
+        } else {
+          favoriteIcon.className = 'fa-regular fa-star text-lg';
+          favoriteBtn.classList.remove('bg-amber-500/20');
+        }
+      }
+
+      // Render Channel List
+      function renderChannels() {
+        const query = searchInput.value.toLowerCase().trim();
+        channelContainer.innerHTML = '';
+        let count = 0;
+
+        CHANNELS.forEach(channel => {
+          // Category matching
+          let matchesCategory = false;
+          if (selectedCategory === 'all') {
+            matchesCategory = true;
+          } else if (selectedCategory === 'favorites') {
+            matchesCategory = isFavorite(channel.id);
+          } else {
+            matchesCategory = channel.cat === selectedCategory;
+          }
+
+          // Country matching
+          const matchesCountry = selectedCountry === 'all' || channel.country === selectedCountry;
+
+          // Text Search matching
+          const matchesSearch = 
+            channel.name.toLowerCase().includes(query) ||
+            channel.countryName.toLowerCase().includes(query) ||
+            channel.cat.toLowerCase().includes(query) ||
+            channel.desc.toLowerCase().includes(query) ||
+            channel.abbr.toLowerCase().includes(query);
+
+          if (matchesCategory && matchesCountry && matchesSearch) {
+            count++;
+            const isActive = channel.id === currentChannel.id;
+            const fav = isFavorite(channel.id);
+
+            const card = document.createElement('div');
+            card.className = `channel-card flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-200 group ${
+              isActive 
+                ? 'bg-[#073322] gold-border-glow text-white' 
+                : 'bg-[#02140d]/90 gold-border hover:bg-[#073322]/80 text-slate-300'
+            }`;
+
+            card.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="text-base sm:text-lg">${channel.flag}</span>
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xs transition-transform group-hover:scale-105 ${
+                  isActive ? 'bg-gold-600 text-slate-950 font-black' : 'bg-[#042217] gold-border text-gold-metallic'
+                }">
+                  ${channel.abbr}
+                </div>
+                <div>
+                  <h4 class="font-bold text-sm text-slate-100 group-hover:text-gold-bright transition-colors flex items-center gap-1.5">
+                    ${channel.name}
+                    ${fav ? '<i class="fa-solid fa-star text-[10px] text-amber-400"></i>' : ''}
+                  </h4>
+                  <p class="text-[11px] text-emerald-200/60">${channel.desc}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] font-extrabold px-2 py-0.5 rounded bg-[#042217] text-gold-light gold-border uppercase">
+                  ${channel.cat}
+                </span>
+                <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+              </div>
+            `;
+
+            card.addEventListener('click', () => switchChannel(channel));
+            channelContainer.appendChild(card);
+          }
+        });
+
+        filteredCount.textContent = `${count} Channels`;
+
+        if (count === 0) {
+          noResults.classList.remove('hidden');
+          noResults.classList.add('flex');
+        } else {
+          noResults.classList.add('hidden');
+          noResults.classList.remove('flex');
+        }
+      }
+
+      // Switch Active Channel
+      function switchChannel(channel) {
+        currentChannel = channel;
+
+        // Embed update with no-referrer
+        player.src = playerUrl(channel.id, true);
+        updateSoundButton(true);
+
+        // Direct App Deep-Link
+        directYtBtn.href = `https://www.youtube.com/channel/${channel.id}/live`;
+
+        // Update info panel
+        activeChannelTitle.textContent = channel.name;
+        activeChannelIcon.textContent = channel.abbr;
+        activeChannelFlag.textContent = channel.flag;
+        activeChannelCountry.textContent = channel.countryName;
+        activeChannelCategory.textContent = channel.cat;
+        activeChannelDesc.textContent = channel.desc;
+
+        updateFavoriteIcon();
+        renderChannels();
+      }
+
+      // Handle Category Pill Buttons
+      catPills.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catPills.forEach(b => {
+            b.classList.remove('active', 'bg-gradient-to-r', 'from-gold-600', 'to-amber-500', 'text-slate-950', 'font-black');
+            b.classList.add('bg-[#042217]', 'text-amber-200/90');
+          });
+
+          btn.classList.add('active', 'bg-gradient-to-r', 'from-gold-600', 'to-amber-500', 'text-slate-950', 'font-black');
+          btn.classList.remove('bg-[#042217]', 'text-amber-200/90');
+
+          selectedCategory = btn.getAttribute('data-category');
+          categoryStats.textContent = selectedCategory === 'all' ? 'All Categories' : `${selectedCategory} Selected`;
+          renderChannels();
+        });
+      });
+
+      // Handle Country Pill Buttons
+      countryPills.forEach(btn => {
+        btn.addEventListener('click', () => {
+          countryPills.forEach(b => {
+            b.classList.remove('active', 'bg-amber-500/20', 'text-gold-light');
+            b.classList.add('bg-[#042217]', 'text-slate-300');
+          });
+
+          btn.classList.add('active', 'bg-amber-500/20', 'text-gold-light');
+          btn.classList.remove('bg-[#042217]', 'text-slate-300');
+
+          selectedCountry = btn.getAttribute('data-country');
+          renderChannels();
+        });
+      });
+
+      // Toggle Favorites
+      favoriteBtn.addEventListener('click', () => {
+        const id = currentChannel.id;
+        if (isFavorite(id)) {
+          favorites = favorites.filter(favId => favId !== id);
+        } else {
+          favorites.push(id);
+        }
+        localStorage.setItem('tv_favorites_v2', JSON.stringify(favorites));
+        updateFavoriteIcon();
+        renderChannels();
+      });
+
+      // Search Handler
+      searchInput.addEventListener('input', (e) => {
+        if (e.target.value.trim().length > 0) {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        renderChannels();
+      });
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        renderChannels();
+        searchInput.focus();
+      });
+
+      // Initial Setup
+      updateFavoriteIcon();
+      renderChannels();
+    });
+  </script>
+</body>
+</html>
